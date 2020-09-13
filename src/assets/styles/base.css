@@ -1,0 +1,53 @@
+body {
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.content-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    background: #edf0f1;
+    position: relative;
+    padding: 25px;
+    flex: 1;
+    min-height: calc(100vh - 46px);
+}
+
+.row {
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+.leaflet-container {
+    height: 400px;
+    width: 800px;
+}
+
+
+.bg-1 {
+    background: #00D37E;
+}
+
+.bg-2 {
+    background: #F7C839;
+}
+
+.bg-3 {
+    background: #FD9540;
+}
+
+.bg-4 {
+    background: #FF3E0D;
+}
+
+.bg-5 {
+    background: #00BEFF;
+}
+
+.bg-6 {
+    background: #AF50FF;
+}
