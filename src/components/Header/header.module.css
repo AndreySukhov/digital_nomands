@@ -1,0 +1,10 @@
+.wrap {
+    background: #fff;
+}
+
+.label {
+    text-transform: uppercase;
+    font-size: 1.12rem;
+
+    color: #2E384D;
+}
