@@ -9,7 +9,23 @@ import worldGeoJSON from "./geo.json";
 import style from './style.module.css';
 import emotionsList from '../../assets/emotions/list.jpg';
 
-import { EMOTION_OPTIONS, DUMB_POSTS } from './utils';
+import { EMOTION_OPTIONS, DUMB_POSTS, AREA_COLOR_CONFIG } from './utils';
+import { createRandomNum } from '../../utils';
+import { DistrictContext } from '../../App'
+import Preloader from "../../components/Preloader";
+
+const worldGeoJSONCopy = {
+    ...worldGeoJSON,
+    features: worldGeoJSON.features.map((feature) => {
+        return {
+            ...feature,
+            properties: {
+                ...feature.properties,
+                fillColor: `#${AREA_COLOR_CONFIG[createRandomNum(1,8)]}`
+            }
+        };
+    })
+};
 
 const Map = () => {
 
@@ -17,13 +33,21 @@ const Map = () => {
     const [postsLimit, setPostsLimit] = useState(3);
     const [currentDistrict, setCurrentDistrict] = useState('');
     const [socialFilter, setSocialFilter] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleFilter = useCallback((newVal, socialFilter) => {
-        if (socialFilter === newVal) {
-            setSocialFilter(null);
-        } else {
-            setSocialFilter(newVal);
-        }
+
+        setLoading(true)
+
+        setTimeout(() => {
+            if (socialFilter === newVal) {
+                setSocialFilter(null);
+            } else {
+                setSocialFilter(newVal);
+            }
+            setLoading(false)
+        }, createRandomNum(300,400))
+
 
     }, []);
 
@@ -35,7 +59,7 @@ const Map = () => {
                         return (
                             <button key={name}
                                     onClick={() => {
-                                        setCurrentDistrict(worldGeoJSON.features[getRandomInt(0, worldGeoJSON.features.length)].properties.name)
+                                        setCurrentDistrict(worldGeoJSONCopy.features[getRandomInt(0, worldGeoJSONCopy.features.length)].properties.name)
                                     }}
                                     className={style['tag-body']}>
                                 {body} {name}
@@ -53,11 +77,19 @@ const Map = () => {
                 </div>
             </div>
             <div className={style.map}>
-                <MapComponent
-                    onClear={() => {
-                        setCurrentDistrict('');
+                <DistrictContext.Consumer>
+                    {(context) => {
+                        return (
+                            <MapComponent
+                                json={worldGeoJSONCopy}
+                                onClear={() => {
+                                    setCurrentDistrict('');
+                                }}
+                                context={context}
+                                currentDistrict={currentDistrict}/>
+                        );
                     }}
-                    currentDistrict={currentDistrict}/>
+                </DistrictContext.Consumer>
             </div>
 
             <div className={style['sidebar-wrap']}>
@@ -73,6 +105,11 @@ const Map = () => {
                         >
                             vkontakte
                         </button>
+                        <button className={`${style['social-link']} ${style['social-link--green']}`}
+                                onClick={() => {handleFilter('ta', socialFilter)}}
+                        >
+                            Tripadviser
+                        </button>
                     </div>
                     <div className={style['sidebar-content']}>
                         {DUMB_POSTS.filter(({type}, i) => {
@@ -86,6 +123,11 @@ const Map = () => {
                             );
                         })}
                     </div>
+                    {loading && (
+                        <div style={{margin: '0 auto'}}>
+                            <Preloader />
+                        </div>
+                    )}
                     {postsLimit < DUMB_POSTS.length && (
                         <div className={style['more-wrap']}>
                             <button className={style['more-btn']} onClick={() => {

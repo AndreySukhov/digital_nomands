@@ -2,9 +2,8 @@ import React, { Component, Fragment } from 'react';
 import {GeoJSON, Map as LeafletMap} from "react-leaflet";
 
 import { createRandomNum } from "../../utils";
+import Modal from './Modal'
 
-import style from './style.module.css';
-import worldGeoJSON from "./geo.json";
 
 class MapComponent extends Component {
 
@@ -26,11 +25,18 @@ class MapComponent extends Component {
             })
         }
 
+        if (prevProps.context.district !== this.props.context.district) {
+            this.setState({
+                currentDistrict: this.props.context.district
+            })
+        }
+
     }
 
     clickToFeature = (e) => {
 
         this.props.onClear()
+        this.props.context.setDistrict('')
         const layer = e.target;
 
         this.setState({
@@ -56,7 +62,7 @@ class MapComponent extends Component {
         }
 
         return {
-            fillColor: '#e74c3c',
+            fillColor: feature.properties.fillColor,
             weight: 1,
             opacity: 0.5,
             color: '#2c3e50',
@@ -94,68 +100,20 @@ class MapComponent extends Component {
                     easeLinearity={0.35}
                 >
                     <GeoJSON
-                        data={worldGeoJSON}
+                        data={this.props.json}
                         onEachFeature={this.onEachFeature}
                         style={this.style}
                     />
                 </LeafletMap>
                 {modalData &&
-                <div className={style.modal}>
-                    <div className={style['modal-header-wrap']}>
-
-                        <div className={style['modal-header']}>
-                            <div className={style['modal-title']}>
-                                {modalData.name}
-                            </div>
-                            <button className={style['modal-close']} onClick={() => {
-                                this.setState({
-                                    modalData: null
-                                })
-                            }}>
-                                ✕
-                            </button>
-                        </div>
-                        <div className={style['modal-hours-line']}>
-                            {Array(24).fill(1).map((el, i) => {
-                                return <div key={i} className={`${style['modal-hours-line__item']} bg-${createRandomNum(1,6)}`}/>
-                            })}
-                        </div>
-                        <div className={style['modal-hours-line-legend']}>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                0
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                4
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                8
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                12
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                16
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                20
-                            </div>
-                            <div className={`${style['modal-hours-line-legend__item']}`}>
-                                24
-                            </div>
-                        </div>
-                    </div>
-                    <div className={style['modal-body']}>
-                        <div className={style['modal-days-grid']}>
-                            {Array(30).fill(1).map((el, i) => {
-                                return <div key={i} className={`${style['modal-days-grid__item']} bg-${createRandomNum(1,6)}`}/>
-                            })}
-                        </div>
-                        <div className={style['modal-posts']}>
-                            <span className={style['modal-posts-num']}>{modalData.posts}</span> posts
-                        </div>
-                    </div>
-
-                </div>}
+                    <Modal modalData={modalData}
+                        onClose={() => {
+                        this.setState({
+                            modalData: null
+                        })}
+                        }
+                    />
+                }
             </Fragment>
 
         )

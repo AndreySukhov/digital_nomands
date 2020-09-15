@@ -190,8 +190,19 @@ const DUMB_POSTS = [
 ];
 
 
+const AREA_COLOR_CONFIG = {
+    1: 'FF7701',
+    2:  'FFBE00',
+    3: 'A7DFD6',
+    4: 'FFA7C0',
+    5: '70D89B',
+    6: 'FE636B',
+    7: '20BEED',
+    8: 'FFA7C0'
+};
 
 export {
     EMOTION_OPTIONS,
     DUMB_POSTS,
+    AREA_COLOR_CONFIG
 };

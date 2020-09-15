@@ -13,6 +13,7 @@ import img4 from '../../assets/emotions/4.jpg';
 import img5 from '../../assets/emotions/5.jpg';
 import img6 from '../../assets/emotions/6.jpg';
 import user from '../../assets/images/user.svg';
+import defaultAvatar from './default-avatar.svg';
 
 const imgConfig = {
     1: img1,
@@ -33,19 +34,24 @@ const Post = (props) => {
         }}>
             {isOpen ? <Fragment>
                 <div className={style.header}>
+                    <div className={style['header-author']}>
+                        <div className={style['header-author-img']}>
+                            <img src={defaultAvatar} alt=""/>
+                        </div>
+                    </div>
                     <div className={style['header-details-opened']}>
+                        <div className={style['author']}>
+                            @{props.author}
+                            <div className={style['date']}>
+                                {props.date}
+                            </div>
+                        </div>
                         <div className={style['likes']}>
                             {props.likes}
                         </div>
-                        <div className={style['author']}>
-                            @{props.author}
-                        </div>
+
                     </div>
-                    <div className={style['header-author']}>
-                        <div className={style['header-author-img']}>
-                            <img src={user} alt=""/>
-                        </div>
-                    </div>
+
                 </div>
                 <div className={`${style.body} ${style['body-opened']}`}>
                     <div>
@@ -75,26 +81,20 @@ const Post = (props) => {
                 </div>
             </Fragment> : <Fragment>
                 <div className={style.header}>
+                    <div className={style['header-author']}>
+                        <div className={style['header-author-img']}>
+                            <img src={defaultAvatar} alt=""/>
+                        </div>
+                    </div>
                     <div className={style['header-details']}>
                         <div className={style['author']}>
                             @{props.author}
                         </div>
                         <div className={style['date']}>
-                            {props.date}
+                            <div className={`${style.text} ${style['text--collapsed']}`}>
+                                {props.text}
+                            </div>
                         </div>
-                    </div>
-                    <div className={style['header-author']}>
-                        <div className={style['header-author-img']}>
-                            <img src={user} alt=""/>
-                        </div>
-                        <div className={style['header-dropdown']}>
-                            <ChevronDown />
-                        </div>
-                    </div>
-                </div>
-                <div className={style.body}>
-                    <div className={`${style.text} ${style['text--collapsed']}`}>
-                        {props.text}
                     </div>
                 </div>
             </Fragment>}

@@ -68,8 +68,8 @@
     margin-bottom: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 7px;
 }
 
 .sidebar-wrap {
@@ -78,7 +78,7 @@
 }
 
 .social-link {
-    padding: 30px;
+    padding: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,6 +98,13 @@
 
     background: #FADDDF;
     border: 1px solid rgba(251, 18, 18, 0.4);
+}
+
+.social-link--green {
+    color: #037145;
+
+    background: #56EAAE;
+    border: 1px solid #00D37E;
 }
 
 .emotions {

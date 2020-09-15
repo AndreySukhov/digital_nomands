@@ -1,0 +1,10 @@
+.main-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+}
+
+.main-grid-aside {
+    background: #fff;
+    z-index: 2;
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.5));
+}
